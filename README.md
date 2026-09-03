@@ -179,3 +179,26 @@ The alert itself was valid: the `eth0` interface did enter promiscuous mode. How
 The detection correctly identified the network interface entering promiscuous mode. Investigation of the event details and surrounding telemetry showed that the activity correlated with an authorized `tcpdump` command used for DHCP troubleshooting.
 
 This investigation demonstrated why alert severity alone does not determine whether activity is malicious. Context, timestamps, user activity, commands, and surrounding events must be correlated before determining the appropriate disposition.
+
+## Alert Investigation: Agent Event Queue Flood
+
+During review of Wazuh security alerts, I identified a Level 12 alert indicating that the `Windows-AIO` agent event queue had become flooded.
+
+The alert stated:
+
+- **Rule Level 12:** Agent event queue is flooded. Check the agent configuration.
+- **Rule ID:** 204
+- **Endpoint:** Windows-AIO
+
+Because a flooded event queue may result in security events being delayed or lost, I investigated the activity to determine what caused the queue to become overloaded and whether the condition required escalation.
+
+### Initial Evidence
+
+The initial alert showed that the `Windows-AIO` agent event queue progressed through multiple warning states within a short period:
+
+- **07:39:17** — Agent event queue reached 90% capacity.
+- **07:39:20** — Agent event queue became full and events were at risk of being lost.
+- **07:39:35** — Agent event queue became flooded.
+- **07:40:17** — Agent event queue returned to normal load.
+
+This progression indicated that the queue experienced a temporary increase in event volume before recovering.
