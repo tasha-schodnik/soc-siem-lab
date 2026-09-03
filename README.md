@@ -65,3 +65,18 @@ The Windows-AIO endpoint communicates with the Legion Go host, where VirtualBox 
 | tcpdump | Packet capture and network troubleshooting |
 | Wireshark | Network traffic and protocol analysis |
 | Linux Audit | Provides security-relevant Linux activity used during investigations |
+
+## Wazuh SIEM Deployment
+
+I deployed a Wazuh all-in-one SIEM server as a virtual machine using VirtualBox. The deployment provides centralized security monitoring, alerting, log analysis, and endpoint visibility for the lab environment.
+
+### Initial Configuration
+
+During deployment, I:
+
+- Configured the Wazuh virtual machine using VirtualBox.
+- Verified that the Wazuh manager, indexer, and dashboard services were running.
+- Verified that the server was listening for Wazuh agent enrollment and communication.
+- Configured VirtualBox NAT networking and port forwarding to allow physical lab systems to communicate with the virtualized Wazuh server.
+- Verified network connectivity and access to the Wazuh dashboard.
+- Accessed the Wazuh dashboard through HTTPS and confirmed that the SIEM was operational.
