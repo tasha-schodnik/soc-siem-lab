@@ -202,3 +202,19 @@ The initial alert showed that the `Windows-AIO` agent event queue progressed thr
 - **07:40:17** — Agent event queue returned to normal load.
 
 This progression indicated that the queue experienced a temporary increase in event volume before recovering.
+
+![Agent Queue Flood Alert](evidence/Agent-Queue-Flood-Alert.png)
+
+*Figure 6. Level 12 Wazuh alert showing the Windows-AIO agent event queue in a flooded state.*
+
+![Agent Queue Flood Timeline](evidence/Agent-Queue-Flood-Timeline.png)
+
+*Figure 7. Queue progression showing the Windows-AIO agent reaching 90% capacity, becoming full, entering a flooded state, and returning to normal load.*
+
+### Investigation
+
+I reviewed the events surrounding the queue flood to determine whether the condition was caused by normal event volume, an agent configuration issue, or another operational condition.
+
+Reviewing telemetry immediately before the queue warnings revealed a large burst of events from `Windows-AIO`. Multiple events were received within fractions of a second, including repeated Windows service-related events.
+
+This indicated that the agent was processing a sudden concentration of telemetry rather than a normal steady flow of events.
