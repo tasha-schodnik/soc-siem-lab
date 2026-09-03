@@ -231,3 +231,56 @@ The comparison showed that some events received by Wazuh on September 3 had orig
 
 This indicated that the burst included backlogged events rather than only newly generated activity.
 
+![Backlogged Event Details Part 1](evidence/Backlogged-Event-Details-1.png)
+
+*Figure 9. Windows-AIO event details showing the service event associated with the event burst.*
+
+![Backlogged Event Details Part 2](evidence/Backlogged-Event-Details-2.png)
+
+*Figure 10. Windows-AIO event showing an internal Windows timestamp several hours earlier than the time the event was received and displayed by Wazuh, providing additional evidence of delayed event processing.*
+
+Further review of the surrounding timeline showed that the Wazuh server started at approximately `07:38:50`. Shortly afterward, the `Windows-AIO` agent began reporting queue-capacity warnings.
+
+The sequence was:
+
+- **07:38:50** — Wazuh server started.
+- **07:39:17** — Windows-AIO agent queue reached 90% capacity.
+- **07:39:20** — Agent queue became full.
+- **07:39:35** — Agent queue entered a flooded state.
+- **07:40:17** — Agent queue returned to normal load.
+
+Combined with the delayed Windows events identified earlier, this timeline indicates that backlogged endpoint telemetry was processed after the Wazuh server became available, temporarily overwhelming the Windows-AIO agent event queue.
+
+![Wazuh Server Restart Correlation](evidence/Wazuh-Server-Restart-Correlation.png)
+
+*Figure 11. Timeline showing the Wazuh server starting immediately before the Windows-AIO agent queue progressed from 90% capacity to flooded and then recovered to normal load.*
+
+### Analysis & Disposition
+
+The Level 12 alert correctly identified that the `Windows-AIO` agent event queue had entered a flooded state. Investigation showed that the condition was temporary and correlated with the Wazuh server becoming available and processing a burst of backlogged Windows telemetry.
+
+The queue progressed from 90% capacity to full and then flooded, creating a temporary risk that security events could be delayed or lost. However, the queue returned to normal load approximately 42 seconds after entering the flooded state without manual intervention.
+
+The surrounding telemetry did not indicate malicious activity associated with the queue flood. Based on the available evidence, the alert represented a legitimate operational condition rather than a security incident.
+
+| Field | Finding |
+|---|---|
+| Alert | Agent event queue is flooded |
+| Severity | Level 12 |
+| Rule ID | 204 |
+| Endpoint | Windows-AIO |
+| Detection Source | Wazuh Agent |
+| Related Activity | Processing of backlogged Windows telemetry |
+| Determination | Legitimate operational condition |
+| Disposition | **Benign Positive** |
+| Escalation | Not required |
+
+### Analyst Conclusion
+
+**Benign Positive — No escalation required.**
+
+The Level 12 queue-flood detection represented a real condition on the `Windows-AIO` endpoint, but investigation found no evidence that the activity was malicious.
+
+Event correlation showed that the Wazuh server became available shortly before a burst of backlogged Windows telemetry was processed. This caused the agent event queue to rapidly progress from 90% capacity to full and then flooded before automatically returning to normal load.
+
+This investigation demonstrated the importance of correlating alert timing with surrounding endpoint and server activity. A high-severity alert may identify a legitimate operational problem rather than a security incident, and determining the appropriate disposition requires investigating the context surrounding the detection.
