@@ -1,2 +1,67 @@
-# soc-siem-lab
-Hands-on SOC lab using Wazuh SIEM for security monitoring, alert triage, log analysis, and incident investigation.
+# SOC Security Monitoring & Incident Triage Lab
+
+## Overview
+
+This project documents the development of my hands-on Security Operations Center (SOC) home lab using Wazuh SIEM.
+
+The lab was built to practice the workflow of a Tier 1 SOC analyst, including security monitoring, alert triage, log analysis, event correlation, incident investigation, and documentation.
+
+Rather than focusing only on installing security tools, this project is designed to give me practical experience investigating activity across Windows and Linux systems and determining whether detected behavior is malicious, suspicious, or legitimate.
+
+## Objective
+
+The objective of this lab is to build a functional SOC environment where I can:
+
+- Collect and monitor security telemetry from multiple endpoints.
+- Investigate security alerts using supporting log and event data.
+- Correlate related events to understand what activity occurred and why.
+- Practice distinguishing malicious or suspicious activity from legitimate administrative activity.
+- Document investigation findings and determine whether an event requires escalation.
+- Develop hands-on experience with the tools and investigative processes used by SOC analysts.
+
+## Lab Environment
+
+The SOC lab consists of a dedicated Wazuh SIEM server and multiple Windows and Linux systems that can be used as monitored endpoints and investigation targets.
+
+### Current Environment
+
+| System | Role | Operating System | Purpose |
+|---|---|---|---|
+| Wazuh Server | SIEM / Security Monitoring | Linux | Collects, analyzes, and displays security telemetry and alerts |
+| Windows-AIO | Monitored Endpoint | Windows 11 | Sends endpoint telemetry to Wazuh for security monitoring and investigation |
+| AW-Ubuntu | Linux Endpoint | Ubuntu Linux | Linux system for security monitoring and lab activity |
+| Kali Linux | Security Testing System | Kali Linux | Used for controlled security testing within the authorized home lab |
+
+### Virtualization
+
+The Wazuh server runs as a virtual machine using VirtualBox. The environment uses virtual networking and NAT port forwarding to allow physical endpoints on the lab network to communicate with the Wazuh server.
+
+## Network Architecture
+
+The Wazuh SIEM is hosted as a virtual machine on the Legion Go. VirtualBox NAT networking is used for the Wazuh VM, with port forwarding allowing systems on the physical lab network to communicate with Wazuh services inside the virtual network.
+
+### Current Communication Path
+
+Windows-AIO → Legion Go Host → VirtualBox NAT → Wazuh Server
+
+| Service | Protocol/Port | Purpose |
+|---|---|---|
+| Wazuh Dashboard | HTTPS / TCP 443 | Provides access to the Wazuh web interface |
+| Agent Communication | TCP 1514 | Allows enrolled agents to send security data to the Wazuh server |
+| Agent Enrollment | TCP 1515 | Used when enrolling new Wazuh agents |
+
+The Windows-AIO endpoint communicates with the Legion Go host, where VirtualBox port-forwarding rules direct Wazuh traffic to the SIEM virtual machine.
+
+## Tools & Technologies
+
+| Tool / Technology | Use in Lab |
+|---|---|
+| Wazuh | SIEM monitoring, alert generation, log analysis, and security-event investigation |
+| VirtualBox | Hosts and manages the virtualized Wazuh server |
+| Windows 11 | Monitored endpoint and source of security telemetry |
+| Ubuntu Linux | Linux endpoint and lab environment |
+| Kali Linux | Controlled security testing within the authorized lab |
+| PowerShell | Windows administration, connectivity testing, and agent management |
+| tcpdump | Packet capture and network troubleshooting |
+| Wireshark | Network traffic and protocol analysis |
+| Linux Audit | Provides security-relevant Linux activity used during investigations |
