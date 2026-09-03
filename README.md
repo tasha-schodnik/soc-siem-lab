@@ -101,6 +101,12 @@ After the agent was started, the endpoint began sending security telemetry to th
 
 *Figure 2: Wazuh Threat Hunting view showing security telemetry collected from the Windows-AIO endpoint.*
 
+### Analyst Conclusion
+
+The successful enrollment of the `Windows-AIO` endpoint confirmed that the Wazuh agent was communicating with the SIEM and that Windows security telemetry was being collected and analyzed.
+
+Reviewing the incoming events also demonstrated how endpoint activity becomes visible to a SOC analyst through centralized monitoring. Agent status, configuration assessment results, rule levels, and rule IDs provide starting points for identifying events that may require further investigation.
+
 ## Alert Investigation: Promiscuous Mode Detection
 
 During review of Wazuh security alerts, I identified two related detections indicating that the Wazuh server's `eth0` network interface had entered promiscuous mode.
