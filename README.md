@@ -90,3 +90,13 @@ The dashboard below confirms that the SIEM is operational and receiving telemetr
 ![Wazuh SIEM Dashboard](evidence/Wazuh_Dashboard.png)
 
 *Figure 1: Wazuh SIEM dashboard showing an active monitored endpoint and generated security alerts.*
+
+## Windows Endpoint Monitoring
+
+I deployed a Wazuh agent to a Windows 11 system named `Windows-AIO` and enrolled the endpoint with the Wazuh server.
+
+After the agent was started, the endpoint began sending security telemetry to the SIEM. Wazuh generated events related to agent activity and Windows security configuration assessments, confirming that the endpoint was successfully communicating with the server and that its telemetry was being analyzed.
+
+![Windows AIO Telemetry](evidence/Windows-AIO-Telemetry.png)
+
+*Figure 2: Wazuh Threat Hunting view showing security telemetry collected from the Windows-AIO endpoint.*
