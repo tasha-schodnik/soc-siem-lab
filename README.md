@@ -80,3 +80,13 @@ During deployment, I:
 - Configured VirtualBox NAT networking and port forwarding to allow physical lab systems to communicate with the virtualized Wazuh server.
 - Verified network connectivity and access to the Wazuh dashboard.
 - Accessed the Wazuh dashboard through HTTPS and confirmed that the SIEM was operational.
+
+### Wazuh Dashboard
+
+The Wazuh dashboard provides centralized visibility into connected agents, security alerts, endpoint security monitoring, threat hunting, vulnerability detection, and MITRE ATT&CK-mapped activity.
+
+The dashboard below confirms that the SIEM is operational and receiving telemetry from an enrolled endpoint.
+
+![Wazuh SIEM Dashboard](evidence/Wazuh_Dashboard.png)
+
+*Figure 1: Wazuh SIEM dashboard showing an active monitored endpoint and generated security alerts.*
